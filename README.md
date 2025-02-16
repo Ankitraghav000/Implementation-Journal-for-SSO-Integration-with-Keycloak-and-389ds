@@ -196,6 +196,7 @@ upstreams=["http://127.0.0.1:80"]
 oauth2-proxy --config=/etc/oauth2_proxy/oauth2-proxy.cfg
 ```
 ### **7\. Nginx Setup**
+### Setup a reverse proxy for Nginx
 ```
  vim /etc/nginx/sites-available/grafna 
 upstream grafana_servers {
@@ -239,7 +240,7 @@ upstream grafana_servers {
 
 }
 ```
-### MinIO
+### Setup a reverse proxy for MinIO
 ```
  vim /etc/nginx/sites-available/minio
 upstream minio_servers {
@@ -280,7 +281,7 @@ upstream minio_servers {
        }
 ```
 
-### Gitlab
+### Setup a reverse proxy for Gitlab
 ```
 vim /etc/nginx/sites-available/gitlab
 
@@ -463,7 +464,7 @@ ldapsearch -H ldap://localhost:3389 -D "cn=Directory Manager" -w redhat "uid=use
 **Testing and Verification**
 ----------------------------
 
-*   Accessed Grafana, GitLab, and MinIO using the configured SSO credentials.
+*   Accessed Grafana, GitLab, and MinIO.
     
 *   Verified that users could log in once and access all services without re-entering credentials.
     
