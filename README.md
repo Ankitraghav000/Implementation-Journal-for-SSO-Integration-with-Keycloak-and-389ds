@@ -82,7 +82,50 @@ sudo systemctl status keycloak
 
 *   Access the Keycloak Admin Console at **http://localhost:8080**.
     
-*   Create a new realm named "project".
+# Creating the First Realm in Keycloak
+
+1. Open the **Keycloak Admin Console**.  
+2. Click on **master** in the top-left corner, then select **Create Realm**.  
+3. Enter a suitable name in the **Realm Name** field.  
+4. Click **Create**.  
+
+![Image](https://github.com/user-attachments/assets/7d78fa3a-e3f9-4851-993b-3307d2361e59) 
+
+---
+
+## Creating a Client  
+
+1. Navigate to the **Clients** section.  
+2. Click **Create Client**.  
+
+![Image](https://github.com/user-attachments/assets/438f72b2-cf5d-4582-9893-d884557e404d) 
+
+3. Enter a **Client ID** and **Name**.  
+![Image](https://github.com/user-attachments/assets/2f345b27-ca00-4942-aa5b-c54b5ce2a5b8) 
+
+4. Configure the **Capability Settings** as needed.  
+
+![Image](https://github.com/user-attachments/assets/0ee88829-725f-4007-a0b0-60817e4f5524)
+5. Adjust the **Login Settings** if required.  
+
+![Image](https://github.com/user-attachments/assets/1a481278-608c-4349-93d0-3325d0233923)
+6. Click **Save** to create the client.  
+
+---
+
+## Creating a Realm Role  
+
+1. Go to the **Roles** section.  
+2. Click **Create Role**.  
+3. Enter `default-roles-project` as the role name.  
+
+![Image](https://github.com/user-attachments/assets/8e4f0ede-43b0-4a3b-a717-0db8a2515b75)
+4. Assign the necessary roles to the created role.  
+
+![Image](https://github.com/user-attachments/assets/0e2faaa7-6f58-4d39-9d88-e88ea5c28eed)
+
+After completing these steps, your realm, client, and roles will be successfully configured in Keycloak. 
+
     
 
 ### **3\. Grafana Integration**
