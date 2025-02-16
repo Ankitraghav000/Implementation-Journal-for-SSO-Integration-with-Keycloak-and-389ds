@@ -192,22 +192,274 @@ pass_user_headers="true"
 upstreams=["http://127.0.0.1:80"]
 ```
 ### Run OAuth2 Proxy
+```
 oauth2-proxy --config=/etc/oauth2_proxy/oauth2-proxy.cfg
-
+```
 ### **7\. Nginx Setup**
+```
+ vim /etc/nginx/sites-available/grafna 
+upstream grafana_servers {
+        server 127.0.0.1:3000;
+  }
 
-*   bashCopy code1# Install Nginx2sudo apt update3sudo apt install nginx45# Check if Nginx is running6sudo systemctl status nginx
-    
-*   bashCopy code1# Create configuration files for Grafana, MinIO, GitLab, Keycloak, and OAuth2 Proxy2sudo nano /etc/nginx/sites-available/grafana3# Add the following content4upstream grafana\_servers {5 server 127.0.0.1:3000;6}78server {9 listen 80;10 server\_name grafana.keen.com;1112 auth\_request /internal-auth/oauth2/auth;1314 error\_page 401 =403 http://oauth.keen.com/oauth2/sign\_in?rd=$scheme://$host$request\_uri;1516 location / {17 proxy\_pass http://grafana\_servers;18 proxy\_set\_header Host $host;19 proxy\_set\_header X-Real-IP $remote\_addr;20 proxy\_set\_header X-Forwarded-For $proxy\_add\_x\_forwarded\_for;21 proxy\_set\_header X-Forwarded-Proto $scheme;22 proxy\_connect\_timeout 5s;23 proxy\_read\_timeout 60s;24 proxy\_send\_timeout 60s;25 proxy\_http\_version 1.1;26 proxy\_set\_header Upgrade $http\_upgrade;27 proxy\_set\_header Connection 'upgrade';28 }2930 location /internal-auth/ {31 internal;32 proxy\_set\_header Host $host;33 proxy\_set\_header X-Real-IP $remote\_addr;34 proxy\_set\_header X-Forwarded-Uri $request\_uri;35 proxy\_pass http://oauth2-proxy/;36 }37}3839# Repeat similar steps for MinIO, GitLab, Keycloak, and OAuth2 Proxy configurations
-    
-*   bashCopy code1sudo ln -s /etc/nginx/sites-available/grafana /etc/nginx/sites-enabled/2sudo ln -s /etc/nginx/sites-available/minio /etc/nginx/sites-enabled/3sudo ln -s /etc/nginx/sites-available/gitlab /etc/nginx/sites-enabled/4sudo ln -s /etc/nginx/sites-available/keycloak /etc/nginx/sites-enabled/5sudo ln -s /etc/nginx/sites-available/oauth2-proxy /etc/nginx/sites-enabled/67# Restart Nginx8sudo systemctl restart nginx.service
-    
+
+
+   server {
+       listen 80;
+       server_name grafana.keen.com;
+
+       auth_request /internal-auth/oauth2/auth;
+
+       error_page 401 =403 http://oauth.keen.com/oauth2/sign_in?rd=$scheme://$host$request_uri;
+
+       location / {
+          proxy_pass http://grafana_servers;
+
+          proxy_set_header Host $host;
+          proxy_set_header X-Real-IP $remote_addr;
+          proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+          proxy_set_header X-Forwarded-Proto $scheme;
+          proxy_connect_timeout 5s;
+          proxy_read_timeout 60s;
+          proxy_send_timeout 60s;
+
+          proxy_http_version 1.1;
+          proxy_set_header Upgrade $http_upgrade;
+          proxy_set_header Connection 'upgrade';
+       }
+
+       location /internal-auth/ {
+          internal;
+          proxy_set_header Host      $host;
+          proxy_set_header X-Real-IP $remote_addr;
+          proxy_set_header X-Forwarded-Uri $request_uri;
+
+          proxy_pass http://oauth2-proxy/;
+       }
+
+}
+```
+### MinIO
+```
+ vim /etc/nginx/sites-available/minio
+upstream minio_servers {
+        server 127.0.0.1:9001;
+  }
+
+   server {
+       listen 80;
+       server_name minio.keen.com;
+
+       auth_request /internal-auth/oauth2/auth;
+
+       error_page 401 =403 http://oauth.keen.com/oauth2/sign_in?rd=$scheme://$host$request_uri;
+
+       location / {
+          proxy_pass http://minio_servers;
+
+          proxy_set_header Host $host;
+          proxy_set_header X-Real-IP $remote_addr;
+          proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+          proxy_set_header X-Forwarded-Proto $scheme;
+          proxy_connect_timeout 5s;
+          proxy_read_timeout 60s;
+          proxy_send_timeout 60s;
+
+          proxy_http_version 1.1;
+          proxy_set_header Upgrade $http_upgrade;
+          proxy_set_header Connection 'upgrade';
+       }
+
+       location /internal-auth/ {
+          internal;
+          proxy_set_header Host      $host;
+          proxy_set_header X-Real-IP $remote_addr;
+          proxy_set_header X-Forwarded-Uri $request_uri;
+
+          proxy_pass http://oauth2-proxy/;
+       }
+```
+
+### Gitlab
+```
+vim /etc/nginx/sites-available/gitlab
+
+upstream gitlab_servers {
+        server 127.0.0.1:8081;
+  }
+
+   server {
+       listen 80;
+       server_name gitlab.keen.com;
+
+       auth_request /internal-auth/oauth2/auth;
+
+       error_page 401 =403 http://oauth.keen.com/oauth2/sign_in?rd=$scheme://$host$request_uri;
+
+       location / {
+          proxy_pass http://gitlab_servers;
+
+          proxy_set_header Host $host;
+          proxy_set_header X-Real-IP $remote_addr;
+          proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+          proxy_set_header X-Forwarded-Proto $scheme;
+          proxy_connect_timeout 5s;
+          proxy_read_timeout 60s;
+          proxy_send_timeout 60s;
+
+          proxy_http_version 1.1;
+          proxy_set_header Upgrade $http_upgrade;
+          proxy_set_header Connection 'upgrade';
+       }
+
+       location /internal-auth/ {
+          internal;
+          proxy_set_header Host      $host;
+          proxy_set_header X-Real-IP $remote_addr;
+          proxy_set_header X-Forwarded-Uri $request_uri;
+
+          proxy_pass http://oauth2-proxy/;
+       }
+
+}
+```
+### Setup a reverse proxy for keycloak:
+
+```
+vim /etc/nginx/sites-available/keycloak
+
+server {
+    listen 80;
+    server_name keycloak.keen.com;
+    location / {
+        proxy_pass http://localhost:8080; # Forward OAuth-specific requests
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_set_header X-Forwarded-Uri $request_uri;
+    }
+}
+
+```
+### Setup a reverse proxy for OAuth2 Proxy:
+```
+vim /etc/nginx/sites-available/oauth2-proxy
+
+upstream oauth2-proxy {
+        server 127.0.0.1:4180;
+  }
+
+
+server {
+    listen 80;
+    server_name oauth.Keen.com;
+
+    location / {
+        proxy_pass http://oauth2-proxy;
+
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_set_header X-Forwarded-Uri $request_uri;
+    }
+
+}
+
+```
+### Create symbolic links :
+```
+sudo ln -s /etc/nginx/sites-available/grafana /etc/nginx/sites-enabled/
+
+sudo ln -s /etc/nginx/sites-available/minio /etc/nginx/sites-enabled/
+
+sudo ln -s /etc/nginx/sites-available/gitlab /etc/nginx/sites-enabled/
+
+sudo ln -s /etc/nginx/sites-available/keycloak /etc/nginx/sites-enabled/
+
+sudo ln -s /etc/nginx/sites-available/oauth2-proxy /etc/nginx/sites-enabled/
+
+```
+- Now , restart the nginx
+```
+sudo systemctl restart nginx.service
+```
+
+
+
+
 
 ### **8\. 389 Directory Server Setup**
+```
+# Create a DS volume
+podman volume create ds-data
 
-*   bashCopy code1# Create a DS volume2podman volume create ds-data34# Create the 389 Directory Server container5podman run -d \\6 --name ds \\7 -e DS\_DM\_PASSWORD=redhat \\8 -p 3389:3389 \\9 -p 3636:3636 \\10 -v ds-data:/data \\11 -it \\12 docker.io/389ds/dirsrv1314# Check running containers15podman ps -a1617# Verify LDAP connection18podman exec ds ldapsearch \\19 -H ldap://localhost.localdomain:3389 \\20 -D "cn=Directory Manager" \\21 -w redhat \\22 -x \\23 -b "" \\24 -s base2526# View container logs27podman logs -f ds2829# Access the LDAP container shell30podman exec -it ds bash3132# Check if LDAP is working33ldapsearch -H ldap://localhost:3389 -D "cn=Directory Manager" -w redhat3435# Create a new LDAP database36dsconf localhost backend create --be-name exampleDB --suffix dc=example,dc=com3738# Add a base structure in LDAP39vi base.ldif40# Add the following content41dn: dc=example,dc=com42objectClass: top43objectClass: domain44dc: example4546dn: ou=Users,dc=example,dc=com47objectClass: organizationalUnit48ou: Users4950# Add the base structure to LDAP51ldapadd -H ldap://localhost:3389 -D "cn=Directory Manager" -w redhat -f base.ldif5253# Add a user to LDAP54vi user2.ldif55# Add the following content56dn: uid=user2,ou=Users,dc=example,dc=com57objectClass: inetOrgPerson58cn: User two59sn: two60uid: user261userPassword: user26263# Add the user to LDAP64ldapadd -H ldap://localhost:3389 -D "cn=Directory Manager" -w redhat -f user2.ldif6566# Search for a user in LDAP67ldapsearch -H ldap://localhost:3389 -D "cn=Directory Manager" -w redhat "uid=user2"
-    
+# Create the 389 Directory Server container
+podman run -d \
+  --name ds \
+  -e DS_DM_PASSWORD=redhat \
+  -p 3389:3389 \
+  -p 3636:3636 \
+  -v ds-data:/data \
+  -it \
+  docker.io/389ds/dirsrv
 
+# Check running containers
+podman ps -a
+
+# Verify LDAP connection
+podman exec ds ldapsearch \
+  -H ldap://localhost.localdomain:3389 \
+  -D "cn=Directory Manager" \
+  -w redhat \
+  -x \
+  -b "" \
+  -s base
+
+# View container logs
+podman logs -f ds
+
+# Access the LDAP container shell
+podman exec -it ds bash
+
+# Check if LDAP is working
+ldapsearch -H ldap://localhost:3389 -D "cn=Directory Manager" -w redhat
+
+# Create a new LDAP database
+dsconf localhost backend create --be-name exampleDB --suffix dc=example,dc=com
+
+# Add a base structure in LDAP
+vi base.ldif
+# Add the following content
+dn: dc=example,dc=com
+objectClass: top
+objectClass: domain
+dc: example
+
+dn: ou=Users,dc=example,dc=com
+objectClass: organizationalUnit
+ou: Users
+
+# Add the base structure to LDAP
+ldapadd -H ldap://localhost:3389 -D "cn=Directory Manager" -w redhat -f base.ldif
+
+# Add a user to LDAP
+vi user2.ldif
+# Add the following content
+dn: uid=user2,ou=Users,dc=example,dc=com
+objectClass: inetOrgPerson
+cn: User two
+sn: two
+uid: user2
+userPassword: user2
+
+# Add the user to LDAP
+ldapadd -H ldap://localhost:3389 -D "cn=Directory Manager" -w redhat -f user2.ldif
+
+# Search for a user in LDAP
+ldapsearch -H ldap://localhost:3389 -D "cn=Directory Manager" -w redhat "uid=user2"    
+```
 **Testing and Verification**
 ----------------------------
 
