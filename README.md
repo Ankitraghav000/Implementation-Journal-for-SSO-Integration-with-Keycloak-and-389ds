@@ -1,8 +1,6 @@
 Implementation Journal for SSO Integration with Keycloak and 389ds
 ==================================================================
 
-**Date:** February 16, 2025
-
 **Overview**
 ------------
 
@@ -82,7 +80,7 @@ sudo systemctl status keycloak
 
 *   Access the Keycloak Admin Console at **http://localhost:8080**.
     
-# Creating the First Realm in Keycloak
+### Creating the First Realm in Keycloak
 
 1. Open the **Keycloak Admin Console**.  
 2. Click on **master** in the top-left corner, then select **Create Realm**.  
@@ -93,7 +91,7 @@ sudo systemctl status keycloak
 
 ---
 
-## Creating a Client  
+### Creating a Client  
 
 1. Navigate to the **Clients** section.  
 2. Click **Create Client**.  
@@ -113,7 +111,7 @@ sudo systemctl status keycloak
 
 ---
 
-## Creating a Realm Role  
+### Creating a Realm Role  
 
 1. Go to the **Roles** section.  
 2. Click **Create Role**.  
