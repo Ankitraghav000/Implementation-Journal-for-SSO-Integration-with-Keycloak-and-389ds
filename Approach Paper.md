@@ -8,7 +8,7 @@ This document outlines the approach for implementing a Single Sign-On (SSO) solu
 
 - **Seamless User Experience**: Enable users to access Grafana, GitLab, and MinIO with a single set of credentials.
 - **Centralized Authentication**: Utilize Keycloak as the central identity provider for managing user identities and access control.
-- **Enhanced Security**: Implement OAuth2 and OpenID Connect protocols to secure user authentication and authorization.
+- **Enhanced Security**: Implement OAuth2 protocols to secure user.
 
 ## 3. Components Involved
 
@@ -23,7 +23,7 @@ This document outlines the approach for implementing a Single Sign-On (SSO) solu
 
 - Basic knowledge of Linux operating system administration.
 - Access to a Linux environment for software installation and configuration.
-- Basic knowledge of Docker.
+- Basic knowledge of podman.
 - Administrative access to the LDAP server for integration with Keycloak.
 
 ## 5. Implementation Steps
@@ -32,22 +32,21 @@ This document outlines the approach for implementing a Single Sign-On (SSO) solu
 
 - **Install Keycloak**: Follow the installation steps to set up Keycloak on the base system.
 - **Create a Realm**: Set up a realm in Keycloak for managing users and clients.
-- **Configure Clients**: Register Grafana, GitLab, and MinIO as clients in Keycloak to enable authentication.
 
 ### 5.2 Grafana Integration
 
-- **Install Grafana**: Deploy Grafana using Podman or Docker.
-- **Configure Grafana**: Set Grafana to use Keycloak as its authentication provider by enabling OAuth2 or OpenID Connect.
+- **Install Grafana**: Deploy Grafana using Podman.
+- **Configure Grafana**: Set Grafana to use Keycloak as its authentication provider by enabling OAuth2.
 
 ### 5.3 MinIO Integration
 
-- **Install MinIO**: Deploy MinIO using Podman or Docker.
+- **Install MinIO**: Deploy MinIO using Podman.
 - **Configure MinIO**: Set MinIO to use Keycloak for authentication, ensuring secure access to storage.
 
 ### 5.4 GitLab Integration
 
-- **Install GitLab**: Deploy GitLab using Podman or Docker.
-- **Configure GitLab**: Integrate GitLab with Keycloak for user authentication.
+- **Install GitLab**: Deploy GitLab using Podman.
+- **Configure GitLab**: Set GitLab to use with Keycloak for user authentication.
 
 ### 5.5 OAuth2 Proxy Setup
 
@@ -67,8 +66,3 @@ This document outlines the approach for implementing a Single Sign-On (SSO) solu
 ## 7. Conclusion
 
 The implementation of SSO using Keycloak and 389ds will enhance user experience by providing seamless access to multiple services with a single login. This approach not only simplifies user management but also strengthens security through centralized authentication.
-
-## 8. Future Work
-
-- **Monitoring and Logging**: Implement monitoring solutions to track authentication requests and user activity.
-- **User  Management**: Explore advanced user management features in Keycloak for role-based access control.
