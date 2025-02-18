@@ -1,4 +1,4 @@
-# Approach Paper forSSO Integration with Keycloak and 389ds for Grafana, GitLab, and MinIO Access
+# Approach Paper for SSO Integration with Keycloak and 389ds for Grafana, GitLab, and MinIO Access
 ## 1. Introduction
 
 This document outlines the approach for implementing a Single Sign-On (SSO) solution using Keycloak and 389 Directory Server (389ds). The integration aims to provide seamless access to multiple services, including Grafana, GitLab, and MinIO, through a single login process.
