@@ -60,11 +60,11 @@ This document outlines the approach for implementing a Single Sign-On (SSO) solu
 - **Configure LDAP**: Set up the LDAP structure and add users for authentication.
 
 ## 7. Testing and Validation
-
+![Image](https://github.com/user-attachments/assets/3b077a87-0481-4bf1-b182-66f513632661)
 - **Access Services**: Test the SSO functionality by accessing Grafana, GitLab, and MinIO using Keycloak credentials.
 - **Verify User Authentication**: Ensure that users can log in once and access all services without re-entering credentials.
 ## 8.Workflow Diagram
-
+![Image](https://github.com/user-attachments/assets/3b077a87-0481-4bf1-b182-66f513632661)
 
 ## 9. Conclusion
 
