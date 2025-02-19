@@ -11,12 +11,12 @@ This document outlines the approach for implementing a Single Sign-On (SSO) solu
 
 ## 3. Components Involved
 
-- **Keycloak**: An open-source identity and access management tool that provides SSO capabilities.
-- **389 Directory Server (389ds)**: An LDAP server for managing user identities and authentication.
-- **Grafana**: A data visualization and monitoring tool.
-- **GitLab**: A web-based DevOps lifecycle tool that provides a Git repository manager.
-- **MinIO**: A high-performance, distributed object storage system.
-- **OAuth2 Proxy**: A reverse proxy that provides authentication for web applications.
+- **Keycloak(Keycloak 26.1.0)**: An open-source identity and access management tool that provides SSO capabilities.
+- **389 Directory Server (Version: 3.1.1)**: An LDAP server for managing user identities and authentication.
+- **Grafana(grafana version 11.5.1)**: A data visualization and monitoring tool.
+- **GitLab(Gitlab Ruby Gem 4.19.0)**: A web-based DevOps lifecycle tool that provides a Git repository manager.
+- **MinIO (RELEASE.2025-02-03T21-03-04Z)**: A high-performance, distributed object storage system.
+- **OAuth2 Proxy (oauth2-proxy v7.8.1 )**: A reverse proxy that provides authentication for web applications.
 
 ## 4. Prerequisites
 
@@ -24,6 +24,8 @@ This document outlines the approach for implementing a Single Sign-On (SSO) solu
 - Access to a Linux environment for software installation and configuration.
 - Basic knowledge of podman.
 - Administrative access to the LDAP server for integration with Keycloak.
+## 5. Architecture Diagram:
+
 
 ## 5. Implementation Steps
 
