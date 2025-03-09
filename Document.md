@@ -29,7 +29,7 @@
 ## Setup Overview
 This setup enables Single Sign-On (SSO) using Keycloak and 389ds, allowing seamless access to Grafana, GitLab, and MinIO with a single login. The flow is as follows:
 
-1. Access `grafana.keen.com` to sign in using SSO credentials.
+1. Access `grafana.keen.com` to sign.
 2. Authenticate with 389ds credentials on the Keycloak page.
 3. Enter Grafana credentials to reach the Grafana home page.
 4. On subsequent visits to `grafana.keen.com`, users are directly taken to the Grafana home page without needing to log in again.
