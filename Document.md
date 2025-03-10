@@ -210,8 +210,6 @@ sudo systemctl status keycloak
 
 When you visit Keycloak for the first time, it will prompt you to set a username and password.
 
-![Fig 1.1 - Add User](#)
-
 ## Create a Realm
 Use these steps to create the first realm:
 1. Open the **Keycloak Admin Console**.
@@ -219,32 +217,32 @@ Use these steps to create the first realm:
 3. Enter a **project** in the **Realm Name** field.
 4. Click **Create**.
 
-![Fig 2.1 - Create Realm](#)
+![Fig 2.1 - Create Realm](https://github.com/user-attachments/assets/7d78fa3a-e3f9-4851-993b-3307d2361e59)
 
 ## Create a Client
 
-![Fig 2.2 - Create Client](#)
+![Fig 2.2 - Create Client](https://github.com/user-attachments/assets/438f72b2-cf5d-4582-9893-d884557e404d)
 
 ### Add Suitable Client ID and Name
 
-![Fig 2.3 - Client ID and Name](#)
+![Fig 2.3 - Client ID and Name](https://github.com/user-attachments/assets/2f345b27-ca00-4942-aa5b-c54b5ce2a5b8)
 
 ### Add Capability Config
 
-![Fig 2.4 - Capability Config](#)
+![Fig 2.4 - Capability Config](https://github.com/user-attachments/assets/0ee88829-725f-4007-a0b0-60817e4f5524)
 
 ### Add Login Setting
 
-![Fig 2.5 - Login Setting](#)
+![Fig 2.5 - Login Setting](https://github.com/user-attachments/assets/1a481278-608c-4349-93d0-3325d0233923)
 
 After clicking the **Save** button, your client will be created.
 
 ## Create Realm Role
 
-![Fig 3.1 - Create Role](#)  
+![Fig 3.1 - Create Role](https://github.com/user-attachments/assets/8e4f0ede-43b0-4a3b-a717-0db8a2515b75)  
 Click on **Create Role** and add the name `default-roles-project`.
 
-![Fig 3.2 - Assign Roles](#)  
+![Fig 3.2 - Assign Roles](https://github.com/user-attachments/assets/0e2faaa7-6f58-4d39-9d88-e88ea5c28eed)  
 
 ---
 
